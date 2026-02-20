@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+        }
+
+        .nav-links a:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        .nav-links a.active {
+            background: #333;
+            color: white;
+        }
+
+        main {
+            min-height: 80vh;
+            padding: 4rem 0;
+        }
+
+        .content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            min-height: 60vh;
+        }
+
+        .content iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            color: #666;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .content iframe {
+                height: 60vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul class="nav-links">
+                <li><a href="#" onclick="loadPage('AVIATOR_RNG_PREDICTOR_v3.0-QUANTUM RNG.html')" class="active">Home</a></li>
+                <li><a href="#" onclick="loadPage('hackeraiaviator.html')">About</a></li>
+                <li><a href="#" onclick="loadPage('secure-aviator-v2.1.html')">Services</a></li>
+                <li><a href="#" onclick="loadPage('WINBUCKS_AVIATOR_HUNTER v2.1.html')">Portfolio</a></li>
+                <li><a href="#" onclick="loadPage('ZIM_AVIATOR_MASTER_v2.1.html')">Blog</a></li>
+                <li><a href="#" onclick="loadPage('ANALYZER.html')">Contact</a></li>
+                <li><a href="#" onclick="loadPage(' CLASSIC_AVIATOR_PREDICTOR_v2.1-SEED ANALYZER.html')">More</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="content">
+            <iframe src="AVIATOR_RNG_PREDICTOR_v3.0-QUANTUM RNG.html" id="pageFrame"></iframe>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>&copy; 2026 My Website @LoXaSB . All rights reserved.</p>
+    </footer>
+
+    <script>
+        function loadPage(page) {
+            // Update iframe src
+            document.getElementById('pageFrame').src = page;
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update URL without page reload (optional)
+            window.history.pushState({}, '', window.location.pathname);
+        }
+
+        // Handle direct page loads (if someone visits /page1.html directly)
+        window.addEventListener('load', function() {
+            const currentPath = window.location.pathname;
+            const pageMatch = currentPath.match(/\/([^\/]+)\.html$/);
+            if (pageMatch) {
+                const pageName = pageMatch[1];
+                loadPage(pageName + '.html');
+            }
+        });
+    </script>
+</body>
+</html>
