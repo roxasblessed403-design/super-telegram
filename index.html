@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Adorable Site</title>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --accent: #667eea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"><animate attributeName="r" values="100;120;100" dur="4s" repeatCount="indefinite"/></circle><circle cx="800" cy="300" r="80" fill="url(%23a)"><animate attributeName="r" values="80;100;80" dur="5s" repeatCount="indefinite"/></circle></svg>');
+            pointer-events: none;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            max-width: 800px;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .page-card:hover::before {
+            left: 100%;
+        }
+
+        .page-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: var(--accent);
+        }
+
+        .page-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent), #764ba2);
+            border-radius: 16px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .page-card:hover .page-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .page-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 95%;
+            max-height: 95%;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal iframe {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            border-radius: 0 0 20px 20px;
+        }
+
+        @media (max-width: 768px) {
+            .page-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .glass-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="glass-card">
+            <h1>✨ Welcome</h1>
+            <p class="subtitle">Pick a page to explore</p>
+        </div>
+    </section>
+
+    <section class="page-grid">
+        <div class="page-card" onclick="openPage('aviator.html')">
+            <div class="page-icon">✈️</div>
+            <div class="page-title">Aviator</div>
+            <div class="page-desc">Your aviator content</div>
+        </div>
+
+        <div class="page-card" onclick="openPage('WINBUCKS_AVIATOR_HUNTER v2.1.html')">
+            <div class="page-icon">🛩️</div>
+            <div class="page-title">WINBUCKS</div>
+            <div class="page-desc">Don't doubt me</div>
+        </div>
+
+        <div class="page-card" onclick="openPage('secure-aviator-v2.1.html')">
+            <div class="page-icon">🛩️🛩️</div>
+            <div class="page-title">Secure-Aviator</div>
+            <div class="page-desc">Don't doubtr</div>
+        </div>
+
+        <div class="page-card" onclick="openPage('hackeraiaviator.htmll')">
+            <div class="page-icon">🛩️🛩️</div>
+            <div class="page-title">hackeraiaviator</div>
+            <div class="page-desc">Don't doubt</div>
+        </div>
+
+        <div class="page-card" onclick="openPage('AVIATOR_RNG_PREDICTOR_v3.0-QUANTUM RNG.html')">
+            <div class="page-icon">🛩️🛩️</div>
+            <div class="page-title"AVIATOR_RNG_PREDICTOR_v3.0-QUANTUM</div>
+            <div class="page-desc">Don't doubt</div>
+        </div>
+
+        <div class="page-card" onclick="openPage('AVIATOR_PREDICTOR_v2.0.html)">
+            <div class="page-icon">🛩️🛩️</div>
+            <div class="page-title">AVIATOR_PREDICTOR_v2.0</div>
+            <div class="page-desc">Get in touch</div>
+        </div>
+
+        <div class="page-card" onclick="openPage( 'CLASSIC_AVIATOR_PREDICTOR_v2.1-SEED ANALYZER.html')">
+            <div class="page-icon">🛩️🛩️</div>
+            <div class="page-title"> CLASSIC_AVIATOR_PREDICTOR_v2.1-SEED ANALYZER</div>
+            <div class="page-desc">Money collection</div>
+        </div>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <iframe id="pageFrame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function openPage(page) {
+            document.getElementById('pageFrame').src = page;
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Smooth scroll behavior
+        document.querySelectorAll('.page-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-12px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
